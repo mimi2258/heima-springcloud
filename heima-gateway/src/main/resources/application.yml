@@ -1,0 +1,25 @@
+server:
+  port: 10010
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        # 路由id，可以任意
+        - id: user-service-route
+          # 代理的服务地址
+          uri: http://127.0.0.1:9091
+          # lb表示从eureka中获取具体服务
+          #uri: lb://user-service
+          # 路由断言： 可以匹配映射路径
+          predicates:
+            - Path=/user/**
+            #- Path=/**
+            #- Path=/api/user/**
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+  instance:
+    prefer-ip-address: true
