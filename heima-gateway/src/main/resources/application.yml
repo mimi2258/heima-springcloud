@@ -9,14 +9,23 @@ spring:
         # 路由id，可以任意
         - id: user-service-route
           # 代理的服务地址
-          uri: http://127.0.0.1:9091
+          #uri: http://127.0.0.1:9091
           # lb表示从eureka中获取具体服务
-          #uri: lb://user-service
+          uri: lb://user-service
           # 路由断言： 可以匹配映射路径
           predicates:
-            - Path=/user/**
+            #- Path=/user/**
             #- Path=/**
-            #- Path=/api/user/**
+            - Path=/jizhi/api/user/**
+          filters:
+            #添加请求路径的前缀
+            #- PrefixPath=/user
+            #1表示过滤一个路径，2表示两个，以此类推
+            - StripPrefix=2
+            #- MyParam=name
+          #默认过滤器，对所有路由都生效
+      default-filters:
+        - AddResponseHeader=myname-jihuangyu, urbbr
 eureka:
   client:
     service-url:
